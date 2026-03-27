@@ -12,6 +12,7 @@ class Ashbot:
     def __init__(self):
         intents = discord.Intents.default()
         intents.message_content = True
+        intents.reactions = True
         self.bot = commands.Bot(command_prefix="!", intents=intents)
 
     async def add_actions(self):
