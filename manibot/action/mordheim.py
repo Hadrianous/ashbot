@@ -1,13 +1,14 @@
 from discord.ext import commands
-from discord.ext.commands import Bot
+from discord.ext.commands import Bot, group
 
 
 class MordheimAction(commands.Cog):
+
     def __init__(self, bot: Bot):
         self.bot = bot
 
     mutations_list = {
-        'Âme démoniaque': "Coût : 20 Couronnes d’Or. Un démon possède l’âme du mutant." +
+        'Âme démoniaque': "Coût : 20 Couronnes d’Or.\n Un démon possède l’âme du mutant." +
             "Le démon confère une sauvegarde spéciale de 4+" +
             "contre les sorts ou les prières.",
         'Pince': "Coût : 50 Couronnes d’Or. " +
@@ -18,12 +19,17 @@ class MordheimAction(commands.Cog):
             "Corps à Corps."
     }
 
-    @commands.hybrid_command()
-    async def mutations(self, ctx):
+    @commands.group(name='mordheim')
+    async def mordheim(self, ctx):
+        pass
+
+    @mordheim.command(name="mutations")
+    async def mutations(self, ctx: str) -> None:
+        """Liste les mutations disponibles"""
         await ctx.send(', '.join(self.mutations_list.keys()))
 
-    @commands.hybrid_command()
-    async def mutation(self, ctx, mutation: str):
+    @mordheim.command()
+    async def mutation(self, ctx, mutation: str) -> None:
         try:
             mutation = self.mutations_list[mutation]
         except KeyError:
